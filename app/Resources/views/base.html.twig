@@ -3,12 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Jeu de rôle{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+        {% block stylesheets %}<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    {% block body %}{% endblock %}
+    {% block javascripts %}
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="./script/script.js"></script>
+    {% endblock %}
+</body>
 </html>
