@@ -27,12 +27,27 @@ button {
 
 #selection > input{
     width: 100%;
-    background-color: rgba(200,15,8,0.7);
 }
 
 #selection > input[type='text']{
     margin-bottom: 10px;
-    background-color: #fff;
+    background-color: #ccc;
     border: 0px;
     border-bottom: 2px solid #444;
+}
+
+#selection > input[type='text']:focus{
+    background-color: #fff;
+
+}
+
+#selection > input[type='submit']{
+    background-color: rgba(200,15,8,0.7);
+    color: #fff;
+    height: 50px;
+    font-size: 1em;
+}
+
+#selection > input[type='submit']:hover{
+
 }
