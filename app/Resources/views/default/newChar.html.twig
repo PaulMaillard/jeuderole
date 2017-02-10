@@ -1,5 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />{% endblock %}
+
 {% block body %}
-    <p>Création personnage</p>
+    <div id="newCharForm">
+    {{ joueur.email }}
+    {{ form_start(formulaire, {'attr':{'action':path("saveCharacter") }} ) }}
+    {{ form_widget (formulaire) }}
+    <input type="submit" value="créer">
+    {{ form_end (formulaire) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="{{ asset('./script/script.js') }}"></script>
 {% endblock %}

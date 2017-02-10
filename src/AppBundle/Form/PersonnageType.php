@@ -13,8 +13,6 @@ class PersonnageType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('nom')
-                ->add('pa')
-                ->add('stats')
                 ->add('race')
                 ->add('classe')
         ;

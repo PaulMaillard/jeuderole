@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Joueur;
+use AppBundle\Entity\Personnage;
+use AppBundle\Form\PersonnageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,21 +39,54 @@ class PlayerController extends Controller {
                 $playerList = $em->getRepository(Joueur::class)->findByEmail($email);
                 if ($playerList != null) {
                     //si joueur déjà existant
-                    $r->getSession()->set('j' . strval($i), $playerList[0]);
+                    $joueur = $playerList[0];
                 } else {
                     //si nouveau joueur
                     $joueur = new Joueur();
                     $joueur->setEmail($email);
                     $em->persist($joueur);
-                    //mise en session du joueur
-                    $r->getSession()->set('j' . strval($i), $joueur);
                 }
+                //mise en session du joueur
+                $r->getSession()->set('j' . strval($i), $joueur);
             }
         }
         $em->flush();
+        $r->getSession()->set('actuel', 1);
         return $this->redirectToRoute('newCharacter');
-//        //m'a permis de vérifier les valeurs du formulaire
-//        return new Response($r->get('j1'));
+    }
+
+    /**
+     * @Route("/perso/create", name="saveCharacter")
+     * @param Request $r
+     */
+    public function savePersonnage(Request $r) {
+        $em = $this->getDoctrine()->getManager();
+        $personnage = new Personnage();
+        $form = $this->createForm(PersonnageType::class, $personnage);
+        $form->handleRequest($r);
+        $em->persist($personnage->majStats());
+        $em->persist($personnage);
+        $joueur = $r->getSession()->get('j' . strval($r->getSession()->get('actuel')));
+        $joueur->setPersonnage($personnage);
+        $em->merge($joueur);
+        $em->flush();
+        return $this->redirectToRoute("switch");
+    }
+
+    /**
+     * Doit être apppelé par la validation de la création du personnage précédent
+     * @param Request $r
+     * @return type
+     * @Route ("/perso/switch", name="switch")
+     */
+    public function switchPlayer(Request $r) {
+        $next = $r->getSession()->get('actuel') + 1;
+        if ($r->getSession()->has('j' . strval($next))) {
+            $r->getSession()->set('actuel', $next);
+            return $this->redirectToRoute('newCharacter');
+        } else {
+            return $this->redirectToRoute('game');
+        }
     }
 
 }

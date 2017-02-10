@@ -5,6 +5,7 @@
 */
 
 body {
+    visibility: hidden;
 }
 
 button {
@@ -15,6 +16,11 @@ button {
     height: 100px;
     font-size: 4em;
     color: #fff;
+}
+
+#newCharForm {
+    position: relative;
+    display: inline-block;
 }
 
 #selection {

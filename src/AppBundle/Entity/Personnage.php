@@ -31,15 +31,15 @@ class Personnage {
     /**
      * @var \stdClass
      *
-     * @ORM\OneToOne(targetEntity="Stats")
+     * @ORM\ManyToOne(targetEntity="Stats")
      * @ORM\JoinColumn(name="fk_stats", referencedColumnName="id")
      */
     private $stats;
-    
+
     /**
      * @var \stdClass
      *
-     * @ORM\OneToOne(targetEntity="Race")
+     * @ORM\ManyToOne(targetEntity="Race")
      * @ORM\JoinColumn(name="fk_race", referencedColumnName="id")
      */
     private $race;
@@ -47,7 +47,7 @@ class Personnage {
     /**
      * @var \stdClass
      *
-     * @ORM\OneToOne(targetEntity="Classe")
+     * @ORM\ManyToOne(targetEntity="Classe")
      * @ORM\JoinColumn(name="fk_classe", referencedColumnName="id")
      */
     private $classe;
@@ -58,11 +58,9 @@ class Personnage {
      * @ORM\Column(name="pa", type="integer")
      */
     private $pa;
- 
     private $positionH;
-            
     private $positionV;
-    
+
     /**
      * Get id
      *
@@ -169,7 +167,7 @@ class Personnage {
      */
     function setPa($pa) {
         $this->pa = $pa;
-        
+
         return $this;
     }
 
@@ -177,36 +175,49 @@ class Personnage {
      * Get pa
      *
      * @return int
-     */    
+     */
     function getPa() {
         return $this->pa;
     }
-    
+
     /**
      * Attaque le personnage ciblé en paramètre
      * 
      * @param \AppBundle\Entity\Personnage $cible
      */
-    public function attaquer(Personnage $cible){
+    public function attaquer(Personnage $cible) {
         
     }
-    
+
     /**
      * Changer sa position initiale par les nouvelles coordonnées
      * 
      * @param int $ligne
      * @param int $colonne
      */
-    public function seDeplacer(int $ligne, int $colonne){
+    public function seDeplacer(int $ligne, int $colonne) {
         $this->positionH = $ligne;
         $this->positionV = $colonne;
     }
-    
+
     /**
      * Méthode pour mourir
      */
-    public function paul(){
+    public function paul() {
         var_dump("Bravo! Vous êtes paul");
+    }
+
+    function __construct() {
+        $this->pa = 2;
+    }
+
+    public function majStats() {
+        $this->stats = new Stats();
+        $this->stats->setPv($this->getRace()->getStats()->getPv() + $this->getClasse()->getStats()->getPv());
+        $this->stats->setAtt($this->getRace()->getStats()->getAtt() + $this->getClasse()->getStats()->getAtt());
+        $this->stats->setMov($this->getRace()->getStats()->getMov() + $this->getClasse()->getStats()->getMov());
+        $this->stats->setDef($this->getRace()->getStats()->getDef() + $this->getClasse()->getStats()->getDef());
+        return $this->stats;
     }
 
 }
