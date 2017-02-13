@@ -37,7 +37,10 @@ class DefaultController extends Controller {
      * @Route("/game", name="game")
      */
     public function getGameUI(Request $r) {
-        return $this->render('default/game_ui.twig');
+        
+        return $this->render('default/game_ui.twig', array(
+            "joueur" => $r->getSession()->get("j" . strval($r->getSession()->get('actuel')))
+        ));
     }
 
 }

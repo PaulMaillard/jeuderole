@@ -58,7 +58,19 @@ class Personnage {
      * @ORM\Column(name="pa", type="integer")
      */
     private $pa;
+    
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="positionH", type="integer")
+     */
     private $positionH;
+    
+    /**
+     * @var int
+     * 
+     * @ORM\Column(name="positionV", type="integer")
+     */    
     private $positionV;
 
     /**
@@ -186,6 +198,8 @@ class Personnage {
      * @param \AppBundle\Entity\Personnage $cible
      */
     public function attaquer(Personnage $cible) {
+        $cible->getStats()->getPV()->setPV($cible->getStats()->getPv()-50);
+        return $cible;
         
     }
 
@@ -209,6 +223,9 @@ class Personnage {
 
     function __construct() {
         $this->pa = 2;
+        $this->positionH = 0;
+        $this->positionV = 0;
+        
     }
 
     public function majStats() {
@@ -219,5 +236,10 @@ class Personnage {
         $this->stats->setDef($this->getRace()->getStats()->getDef() + $this->getClasse()->getStats()->getDef());
         return $this->stats;
     }
+    
+    public function __toString() {
+        return $this->getNom();
+    }
+
 
 }

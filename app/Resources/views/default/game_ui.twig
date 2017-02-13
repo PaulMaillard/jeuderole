@@ -1,1 +1,12 @@
-{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{joueur.email}}
+    {{joueur.personnage.nom}}
+    <form method="POST" action="{{ path('move', {'ligne':'?', 'colonne':'?'})}}">
+        <input type="number" name="ligne">
+        <input type="number" name="colonne">
+        <input type="submit">
+    </form>
+    
+{% endblock %}
